@@ -11,7 +11,10 @@ import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { EmployeeOffboardDialogComponent } from '../employee-offboard-dialog/employee-offboard-dialog.component';
+import {
+  DialogData,
+  EmployeeOffboardDialogComponent,
+} from '../employee-offboard-dialog/employee-offboard-dialog.component';
 
 @Component({
   selector: 'app-employee-details-page',
@@ -44,7 +47,9 @@ export class EmployeeDetailsPageComponent {
   openOffboardDialog() {
     const dialogRef = this.dialog.open(EmployeeOffboardDialogComponent, {
       width: '600px',
-      data: {},
+      data: <DialogData>{
+        employeeId: this.id,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

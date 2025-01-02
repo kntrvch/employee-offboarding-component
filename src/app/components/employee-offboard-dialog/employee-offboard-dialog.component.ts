@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import {
-  FormControl,
   Validators,
   FormsModule,
   ReactiveFormsModule,
@@ -8,6 +7,7 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import {
+  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogActions,
   MatDialogContent,
@@ -19,6 +19,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { OffboardParams } from '../../models/offboard-params';
 import { CommonModule } from '@angular/common';
+import { Update } from '@ngrx/entity';
+import { Employee } from '../../models/employee';
+import { Store } from '@ngrx/store';
+import { updateEmployee } from '../../store/employees/employees.actions';
+
+export interface DialogData {
+  employeeId: string;
+}
 
 @Component({
   selector: 'app-employee-offboard-dialog',
@@ -39,10 +47,11 @@ import { CommonModule } from '@angular/common';
 export class EmployeeOffboardDialogComponent {
   readonly dialog = inject(MatDialog);
   readonly dialogRef = inject(MatDialogRef<EmployeeOffboardDialogComponent>);
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private store: Store) {
     this.formGroup = this.fb.group({
       address: this.fb.group({
         streetLine1: ['', Validators.required],
@@ -69,5 +78,17 @@ export class EmployeeOffboardDialogComponent {
       this.formGroup.markAllAsTouched();
       return;
     }
+    const offboardData = this.formGroup.getRawValue() as OffboardParams;
+    console.log(offboardData);
+    this.updateEmployee();
+  }
+
+  updateEmployee() {
+    const update: Update<Employee> = {
+      id: this.data.employeeId,
+      changes: { status: 'OFFBOARDED' },
+    };
+
+    this.store.dispatch(updateEmployee({ update }));
   }
 }

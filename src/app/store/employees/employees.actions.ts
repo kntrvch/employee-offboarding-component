@@ -2,14 +2,19 @@ import { createAction, props } from '@ngrx/store';
 import { EmployeesResponse } from '../../models/employees-response';
 import { EmployeesParams } from '../../models/employees-params';
 import { EmployeeResponse } from '../../models/employee-response';
+import { Update } from '@ngrx/entity';
+import { Employee } from '../../models/employee';
 
 enum EmployeesActionType {
   LoadingEmployees = '[EMPLOYEES] Loading Employees',
   LoadEmployeesSuccess = '[EMPLOYEES] Employees Loaded Success',
   loadEmployeesFailure = '[EMPLOYEES] Employees Loaded Failure',
+
   LoadingEmployee = '[EMPLOYEES] Loading Employee',
   LoadEmployeeSuccess = '[EMPLOYEES] Employee Loaded Success',
   loadEmployeeFailure = '[EMPLOYEES] Employee Loaded Failure',
+
+  UpdateEmployee = '[EMPLOYEES] Update Employee',
 }
 
 export const loadingEmployees = createAction(
@@ -40,4 +45,9 @@ export const loadEmployeeSuccess = createAction(
 export const loadEmployeeFailure = createAction(
   EmployeesActionType.loadEmployeeFailure,
   props<{ error: any }>()
+);
+
+export const updateEmployee = createAction(
+  EmployeesActionType.UpdateEmployee,
+  props<{ update: Update<Employee> }>()
 );

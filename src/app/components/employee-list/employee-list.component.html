@@ -38,5 +38,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/employee-details', row.id]" class="example-row"></tr>
     </table>
 
-    <mat-paginator #paginator [length]="total" [pageSize]="1"></mat-paginator>
+    <mat-paginator #paginator [length]="total" [pageSize]="10"></mat-paginator>
 </div>
