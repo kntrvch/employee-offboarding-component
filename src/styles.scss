@@ -1,27 +1,49 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 @include mat.core();
 
-$theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$orange-palette,
-    tertiary: mat.$orange-palette
-  ),
-));
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$orange-palette,
+      tertiary: mat.$orange-palette,
+    ),
+  )
+);
 
 html {
-    @include mat.all-component-themes($theme);    
+  @include mat.all-component-themes($theme);
 }
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.col {
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0;
+  }
+}
+
+.full-width {
+  width: 100%;
+}

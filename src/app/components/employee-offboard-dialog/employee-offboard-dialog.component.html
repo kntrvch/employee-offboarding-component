@@ -1,1 +1,73 @@
-<p>employee-offboard-dialog works!</p>
+<h2 mat-dialog-title>Offboard</h2>
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <mat-dialog-content>
+
+    <mat-form-field class="full-width" formGroupName="address">
+      <mat-label>Receiver</mat-label>
+      <input type="text" matInput formControlName="receiver">
+      <mat-error *ngIf="addressGroup.get('receiver')?.hasError('required') && addressGroup.get('receiver')?.touched">
+        Receiver is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email">
+      <mat-error *ngIf="formGroup.get('email')?.hasError('email') && formGroup.get('email')?.touched">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.hasError('required') && formGroup.get('email')?.touched">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Phone</mat-label>
+      <input type="text" matInput formControlName="phone">
+      <mat-error *ngIf="formGroup.get('phone')?.hasError('required') && formGroup.get('phone')?.touched">
+        Phone is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" formGroupName="address">
+      <mat-label>Street Line</mat-label>
+      <input type="text" matInput formControlName="streetLine1">
+      <mat-error
+        *ngIf="addressGroup.get('streetLine1')?.hasError('required') && addressGroup.get('streetLine1')?.touched">
+        Street Line is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="full-width" formGroupName="address">
+          <mat-label>City</mat-label>
+          <input type="text" matInput formControlName="city">
+          <mat-error *ngIf="addressGroup.get('city')?.hasError('required') && addressGroup.get('city')?.touched">
+            City is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="full-width" formGroupName="address">
+          <mat-label>Postal Code</mat-label>
+          <input type="text" matInput formControlName="postalCode">
+          <mat-error
+            *ngIf="addressGroup.get('postalCode')?.hasError('required') && addressGroup.get('postalCode')?.touched">
+            Postal Code is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-flat-button cdkFocusInitial>Confirm</button>
+  </mat-dialog-actions>
+</form>
