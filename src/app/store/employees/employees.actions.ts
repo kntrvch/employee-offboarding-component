@@ -1,15 +1,19 @@
 import { createAction, props } from '@ngrx/store';
 import { EmployeesResponse } from '../../models/employees-response';
 import { EmployeesParams } from '../../models/employees-params';
+import { EmployeeResponse } from '../../models/employee-response';
 
 enum EmployeesActionType {
-  Loading = '[EMPLOYEES] Loading',
-  LoadEmployeesSuccess = '[EMPLOYEES] Loaded Success',
-  loadEmployeesFailure = '[EMPLOYEES] Loaded Failure',
+  LoadingEmployees = '[EMPLOYEES] Loading Employees',
+  LoadEmployeesSuccess = '[EMPLOYEES] Employees Loaded Success',
+  loadEmployeesFailure = '[EMPLOYEES] Employees Loaded Failure',
+  LoadingEmployee = '[EMPLOYEES] Loading Employee',
+  LoadEmployeeSuccess = '[EMPLOYEES] Employee Loaded Success',
+  loadEmployeeFailure = '[EMPLOYEES] Employee Loaded Failure',
 }
 
 export const loadingEmployees = createAction(
-  EmployeesActionType.Loading,
+  EmployeesActionType.LoadingEmployees,
   props<{ params: EmployeesParams }>()
 );
 
@@ -20,5 +24,20 @@ export const loadEmployeesSuccess = createAction(
 
 export const loadEmployeesFailure = createAction(
   EmployeesActionType.loadEmployeesFailure,
+  props<{ error: any }>()
+);
+
+export const loadingEmployee = createAction(
+  EmployeesActionType.LoadingEmployee,
+  props<{ id: string }>()
+);
+
+export const loadEmployeeSuccess = createAction(
+  EmployeesActionType.LoadEmployeeSuccess,
+  props<{ response: EmployeeResponse }>()
+);
+
+export const loadEmployeeFailure = createAction(
+  EmployeesActionType.loadEmployeeFailure,
   props<{ error: any }>()
 );

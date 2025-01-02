@@ -1,3 +1,11 @@
 <h1>Offboarding</h1>
-<app-employee-search-input></app-employee-search-input>
-<app-employee-list></app-employee-list>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="Employees">
+        <app-employee-search-input></app-employee-search-input>
+        <mat-card appearance="raised">
+            <app-employee-list></app-employee-list>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Other">
+    </mat-tab>
+</mat-tab-group>

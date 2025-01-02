@@ -9,13 +9,6 @@ export const employeesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  //   on(loadEmployeesSuccess, (state, { response }) => ({
-  //     ...state,
-  //     loading: false,
-  //     employees: response.employees,
-  //     total: response.total,
-  //     error: null,
-  //   })),
   on(employee.loadEmployeesSuccess, (state, { response }) =>
     employeeAdapter.setAll(response.employees, {
       ...state,
@@ -24,11 +17,6 @@ export const employeesReducer = createReducer(
       total: response.total,
     })
   ),
-  //   on(loadEmployeesFailure, (state, { error }) => ({
-  //     ...state,
-  //     loading: false,
-  //     error,
-  //   }))
   on(employee.loadEmployeesFailure, (state) =>
     employeeAdapter.removeAll({
       ...state,
@@ -36,5 +24,16 @@ export const employeesReducer = createReducer(
       loading: false,
       total: 0,
     })
-  )
+  ),
+  on(employee.loadingEmployee, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(employee.loadEmployeeSuccess, (state, { response }) => ({
+    ...state,
+    error: false,
+    loading: false,
+    selectedEmployeeId: response.employee.id
+  }))
 );
