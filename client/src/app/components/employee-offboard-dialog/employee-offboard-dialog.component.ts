@@ -23,6 +23,7 @@ import { Update } from '@ngrx/entity';
 import { Employee } from '../../models/employee';
 import { Store } from '@ngrx/store';
 import { updateEmployee } from '../../store/employees/employees.actions';
+import { EmployeeService } from '../../services/employee.service';
 
 export interface DialogData {
   employeeId: string;
@@ -45,13 +46,12 @@ export interface DialogData {
   styleUrl: './employee-offboard-dialog.component.scss',
 })
 export class EmployeeOffboardDialogComponent {
-  readonly dialog = inject(MatDialog);
   readonly dialogRef = inject(MatDialogRef<EmployeeOffboardDialogComponent>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store: Store) {
+  constructor(private fb: FormBuilder, private store: Store, private employeeService: EmployeeService) {
     this.formGroup = this.fb.group({
       address: this.fb.group({
         streetLine1: ['', Validators.required],
@@ -79,8 +79,14 @@ export class EmployeeOffboardDialogComponent {
       return;
     }
     const offboardData = this.formGroup.getRawValue() as OffboardParams;
-    console.log(offboardData);
-    this.updateEmployee();
+    this.employeeService.offboardEmployee(this.data.employeeId, offboardData).subscribe({
+      next: (response) => {
+        this.updateEmployee();
+        this.dialogRef.close();
+      },
+      error: (err) => {
+      },
+    })
   }
 
   updateEmployee() {

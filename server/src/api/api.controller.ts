@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Employee } from './models/employee';
 import { EmployeesResponse } from './models/employees-response';
 import { delay, of } from 'rxjs';
+import { OffboardParams } from './models/offboard-params';
 
 const EMPLOYEES = <Employee[]>[
   {
@@ -45,12 +46,21 @@ const EMPLOYEES_RESPONSE = <EmployeesResponse>{
 export class ApiController {
   @Get('employees')
   getEmployees() {
-    return of(EMPLOYEES_RESPONSE).pipe(delay(1000));
+    return of(EMPLOYEES_RESPONSE);
   }
 
   @Get('employees/:id')
-  getEmployeesWithParam(@Param('id') id: string) {
+  getEmployee(@Param('id') id: string) {
     const employee = EMPLOYEES.find((emp) => emp.id === id);
-    return of(employee).pipe(delay(20000));
+    return of({employee});
+  }
+
+  @Post('users/:id/offboard')
+  offboardEmployee(@Param('id') id: string, @Body() body: OffboardParams): any {
+    return {
+      status: 200,
+      message: `User offboarded (ID: ${id})`,
+      data: body,
+    };
   }
 }
