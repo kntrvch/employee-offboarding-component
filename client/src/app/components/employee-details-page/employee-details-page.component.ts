@@ -16,7 +16,7 @@ import {
 } from '../employee-offboard-dialog/employee-offboard-dialog.component';
 import { EmployeeService } from '../../services/employee.service';
 import { Update } from '@ngrx/entity';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-employee-details-page',
@@ -81,7 +81,7 @@ export class EmployeeDetailsPageComponent {
 
   openSnackBar(message: string) {
     this._snackBar.open(message, '', {
-      duration: 3000
+      duration: 3000,
     });
   }
 }

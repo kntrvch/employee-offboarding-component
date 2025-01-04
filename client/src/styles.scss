@@ -12,6 +12,29 @@ $theme: mat.define-theme(
   )
 );
 
+:root {
+  @include mat.table-overrides(
+    (
+      background-color: white,
+    )
+  );
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: orange,
+    )
+  );
+  @include mat.card-overrides(
+    (
+      elevated-container-color: white,
+    )
+  );
+  @include mat.paginator-overrides(
+    (
+      container-background-color: white,
+    )
+  );
+}
+
 html {
   @include mat.all-component-themes($theme);
 }
