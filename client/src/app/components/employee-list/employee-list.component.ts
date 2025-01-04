@@ -55,7 +55,6 @@ export class EmployeeListComponent implements OnDestroy, AfterViewInit {
   constructor(private store: Store, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    // this.loadEmployees({ pageNumber: 1, pageSize: 1 });
   }
 
   ngAfterViewInit() {

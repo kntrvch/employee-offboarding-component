@@ -34,7 +34,6 @@ export const employeesReducer = createReducer(
     ...state,
     error: false,
     loading: false,
-    selectedEmployeeId: response.employee.id,
   })),
   on(employee.updateEmployee, (state, { update }) =>
     employeeAdapter.updateOne(update, state)

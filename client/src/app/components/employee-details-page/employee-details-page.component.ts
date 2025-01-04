@@ -1,12 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { loadingEmployee } from '../../store/employees/employees.actions';
+import { Store } from '@ngrx/store';
+import { updateEmployee } from '../../store/employees/employees.actions';
 import { Employee } from '../../models/employee';
 import { Observable } from 'rxjs';
-import { selectEmployee } from '../../store/employees/employees.selectors';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
@@ -15,6 +14,8 @@ import {
   DialogData,
   EmployeeOffboardDialogComponent,
 } from '../employee-offboard-dialog/employee-offboard-dialog.component';
+import { EmployeeService } from '../../services/employee.service';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-employee-details-page',
@@ -28,6 +29,7 @@ import {
   ],
   templateUrl: './employee-details-page.component.html',
   styleUrl: './employee-details-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeDetailsPageComponent {
   private id: string;
@@ -35,13 +37,16 @@ export class EmployeeDetailsPageComponent {
 
   employee$: Observable<Employee | null> | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private employeeService: EmployeeService
+  ) {
     this.id = this.activatedRoute.snapshot.params['id'];
-    this.store.dispatch(loadingEmployee({ id: this.id }));
   }
 
   ngOnInit() {
-    this.employee$ = this.store.pipe(select(selectEmployee(this.id)));
+    this.employee$ = this.employeeService.getEmployee(this.id);
   }
 
   openOffboardDialog() {
@@ -53,9 +58,18 @@ export class EmployeeDetailsPageComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      if (result !== undefined) {
+      if (result !== undefined && result.id === this.id) {
+        this.updateEmployee();
       }
     });
+  }
+
+  updateEmployee() {
+    const update: Update<Employee> = {
+      id: this.id,
+      changes: { status: 'OFFBOARDED' },
+    };
+
+    this.store.dispatch(updateEmployee({ update }));
   }
 }

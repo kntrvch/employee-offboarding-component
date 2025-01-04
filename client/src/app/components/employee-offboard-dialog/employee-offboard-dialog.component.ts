@@ -19,10 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { OffboardParams } from '../../models/offboard-params';
 import { CommonModule } from '@angular/common';
-import { Update } from '@ngrx/entity';
-import { Employee } from '../../models/employee';
 import { Store } from '@ngrx/store';
-import { updateEmployee } from '../../store/employees/employees.actions';
 import { EmployeeService } from '../../services/employee.service';
 
 export interface DialogData {
@@ -51,7 +48,11 @@ export class EmployeeOffboardDialogComponent {
 
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store: Store, private employeeService: EmployeeService) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private employeeService: EmployeeService
+  ) {
     this.formGroup = this.fb.group({
       address: this.fb.group({
         streetLine1: ['', Validators.required],
@@ -79,22 +80,13 @@ export class EmployeeOffboardDialogComponent {
       return;
     }
     const offboardData = this.formGroup.getRawValue() as OffboardParams;
-    this.employeeService.offboardEmployee(this.data.employeeId, offboardData).subscribe({
-      next: (response) => {
-        this.updateEmployee();
-        this.dialogRef.close();
-      },
-      error: (err) => {
-      },
-    })
-  }
-
-  updateEmployee() {
-    const update: Update<Employee> = {
-      id: this.data.employeeId,
-      changes: { status: 'OFFBOARDED' },
-    };
-
-    this.store.dispatch(updateEmployee({ update }));
+    this.employeeService
+      .offboardEmployee(this.data.employeeId, offboardData)
+      .subscribe({
+        next: () => {
+          this.dialogRef.close({ id: this.data.employeeId });
+        },
+        error: (err) => {},
+      });
   }
 }

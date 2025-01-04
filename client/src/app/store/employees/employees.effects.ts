@@ -13,7 +13,7 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { EmployeesResponse } from '../../models/employees-response';
 import { EmployeesParams } from '../../models/employees-params';
 import { HttpErrorResponse } from '@angular/common/http';
-import { EmployeeResponse } from '../../models/employee-response';
+import { Employee } from '../../models/employee';
 
 @Injectable()
 export class EmployeesEffects {
@@ -42,7 +42,7 @@ export class EmployeesEffects {
       ofType(loadingEmployee),
       switchMap((payload: { id: string }) =>
         this.employeeService.getEmployee(payload.id).pipe(
-          map((response: EmployeeResponse) =>
+          map((response: Employee) =>
             loadEmployeeSuccess({ response })
           ),
           catchError((error: HttpErrorResponse) =>

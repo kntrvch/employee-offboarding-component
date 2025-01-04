@@ -39,7 +39,7 @@ export const loadingEmployee = createAction(
 
 export const loadEmployeeSuccess = createAction(
   EmployeesActionType.LoadEmployeeSuccess,
-  props<{ response: EmployeeResponse }>()
+  props<{ response: Employee }>()
 );
 
 export const loadEmployeeFailure = createAction(
